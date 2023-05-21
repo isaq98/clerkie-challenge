@@ -6,19 +6,44 @@
   }
  
 .sidebar-header {
-    max-width: 176px;
+    max-width: 235px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 75px;
 }
-.sidebar-title {
-    position: relative;
-    left: 25px;
-    top: 30px
-  }
+
+.sidebar-header-content {
+    display: inline-flex;
+}
+
+.sidebar-header-content > .clerkie-svg, .navigation-svg {
+    padding-right: 10px;
+}
+
+.navigation-svg {
+    padding-left: 10px;
+}
 
 .sidebar-button {
+    display: inline-flex;
     list-style: none;
-    width: 220px;
-    position: relative;
-    top: 55px;
+    align-items: center;
+    width: 210px;
+    height: 40px;
+}
+
+.sidebar-button:hover {
+    background-color: #424242;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+.sidebar-navigation-list {
+    padding-inline-start: unset;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
   h4 {
@@ -29,9 +54,6 @@
     line-height: 19px;
   }
 
-  li {
-    font-style: normal;
+   li > h4 {
     font-weight: 500;
-    font-size: 16px;
-    line-height: 19px;
   }
