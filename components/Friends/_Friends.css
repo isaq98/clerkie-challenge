@@ -1,0 +1,82 @@
+.friend-card {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 750px;
+    height: 115px;
+    border: 1px solid #D7D7D7;
+    border-radius: 6px;
+    box-sizing: border-box;
+    margin: 15px 0px;
+    padding-left: 25px;
+}
+
+.friend-card > h4 {
+    font-weight: 700;
+    font-size: 16px;
+    line-height: 19px;
+}
+
+.friend-card > h4 > .friend-status {
+    font-style: normal;
+    font-weight: 600;
+    font-size: 12px;
+    line-height: 15px;
+    margin-left: 8px;
+}
+
+.friend-status.blue {
+    color: #3399FF;
+    background: #DFEFFF;
+    border-radius: 21px;
+    padding: 3px 7px;
+}
+
+.friend-status.green {
+    color: #19B444;
+    background: #DCFFE6;
+    border-radius: 21px;
+    padding: 3px 7px;
+}
+
+.contact-info {
+    font-style: normal;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 17px;
+    color: #ABABAB;
+}
+
+.contact-info > svg {
+    margin: 1px 7px;
+}
+
+.filter-content {
+    display: inline-flex;
+    align-items: center;
+}
+
+.filter-button {
+    background: #FFFFFF;
+    border: 1px solid #ABABAB;
+    border-radius: 30px;
+    box-sizing: border-box;
+    width: 59px;
+    height: 37px;
+    cursor: pointer;
+}
+
+.svg-divider {
+    height: 28px;
+    padding: 0px 10px 0px 12px;
+    height: 35px;
+}
+
+.clear-filters-button {
+    background-color: transparent;
+    border: none;
+    font-weight: 600;
+    font-size: 14px;
+    line-height: 17px;
+    color: #D7D7D7;
+}

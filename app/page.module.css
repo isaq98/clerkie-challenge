@@ -7,6 +7,21 @@
   min-height: 100vh;
 }
 
+.welcomeMessage {
+  position: absolute;
+  width: 433px;
+  height: 31px;
+  /* left: 869px; */
+  left: 725px;
+  top: 525px;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 26px;
+  line-height: 31px;
+  display: flex;
+  align-items: center;
+}
+
 .description {
   display: inherit;
   justify-content: inherit;

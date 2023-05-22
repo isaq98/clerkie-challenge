@@ -1,6 +1,7 @@
 .sidebar-container {
+    position: absolute;
     width: 250px;
-    height: 1080px;
+    height: 100vh;
     color: #fff;
     background-color: #091928;
   }
@@ -33,9 +34,12 @@
     height: 40px;
 }
 
-.sidebar-button:hover {
+.sidebar-button.active {
     background-color: #424242;
     border-radius: 10px;
+}
+
+.sidebar-button:hover {
     cursor: pointer;
 }
 

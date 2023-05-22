@@ -1,4 +1,5 @@
 .top-menu {
+    position: absolute;
     width: 1400px;
     height: 80px;
     left: 250px;
@@ -13,14 +14,11 @@
     height: 22px;
     left: 40px;
     top: 29px;
-}
-
-h4 {
     margin: 0;
     font-style: normal;
     font-weight: 700;
-    font-size: 16px;
-    line-height: 19px;
-  }
+    font-size: 18px;
+    line-height: 22px;
+}
 
   /* TOOD: handle top menu width */
