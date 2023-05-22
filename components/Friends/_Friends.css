@@ -66,6 +66,23 @@
     cursor: pointer;
 }
 
+.filter-button.active {
+    background-color: #424242;
+}
+
+.filter-button.active > svg {
+    fill: #fff;
+}
+
+.filter-button.active > svg > path {
+    stroke: #fff;
+}
+
+.filter-button.active > svg > circle {
+    stroke: #fff;
+    fill: #424242;
+}
+
 .svg-divider {
     height: 28px;
     padding: 0px 10px 0px 12px;
@@ -80,3 +97,11 @@
     line-height: 17px;
     color: #D7D7D7;
 }
+
+.friends-list-container {
+    position: absolute;
+    top: 150px;
+    right: 300px;
+}
+
+/* TODO: Figure out how to clean things up */
