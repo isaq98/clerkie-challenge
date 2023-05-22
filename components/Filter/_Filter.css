@@ -1,0 +1,37 @@
+.filter-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 285px;
+    width: 320px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    border-radius: 6px;
+}
+
+.filter-header {
+    display: inline-flex;
+    width: 90%;
+    justify-content: space-between;
+    margin: 10px;
+    border-bottom: 1px solid #EAEAEA;
+}
+
+.filter-options > label {
+    font-style: normal;
+    font-weight: 600;
+    font-size: 16px;
+    line-height: 19px;
+    color: #424242;
+}
+
+.apply-filters-button {
+    color: white;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 16px;
+    line-height: 19px;
+    background: #424242;
+    border-radius: 6px;
+    max-width: 100%;
+    margin: 0px 10px 10px 10px;
+}
