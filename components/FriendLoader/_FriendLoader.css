@@ -1,0 +1,45 @@
+.friend-card-loader {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    height: 115px;
+    width: 750px;
+    border: 1px solid #D7D7D7;
+    border-radius: 6px;
+    box-sizing: border-box;
+    margin: 15px 0px;
+}
+
+.loading-row {
+    display: inline-flex;
+    width: 90%;
+    justify-content: space-between;
+    margin: 15px 25px 0px 25px
+}
+
+.gradient-1, .gradient-2, .gradient-3, .gradient-4 {
+    background: linear-gradient(90deg, #EAEAEA 26.47%, rgba(234, 234, 234, 0.25) 100%);
+    border-radius: 27px;
+}
+
+.gradient-1 {
+    width: 295px;
+    height: 18px;
+}
+
+.gradient-2 {
+    width: 118px;
+    height: 17px;
+    transform: matrix(-1, 0, 0, 1, 0, 0);
+}
+
+.gradient-3 {
+    width: 340px;
+    height: 14px;
+}
+
+.gradient-4 {
+    width: 84px;
+    height: 12px;
+    transform: matrix(-1, 0, 0, 1, 0, 0);
+}

@@ -7,7 +7,7 @@ function Filter(props) {
     const { setFiltersCallback, setApplyCallback, setVisibilityCallback } = props;
 
     /* TODO: clean this up too */
-    
+
     const onSubmitHandler = (event) => {
         event.preventDefault();
         const activeNames = [];
@@ -37,11 +37,24 @@ function Filter(props) {
         setActiveCheckboxes((currValues) => currValues.map((element, idx) => idx === i ? !element : element));
     }
 
+    const renderCheckboxInput = (value, idx) => {
+        return (
+            <div className="checkbox-container">
+                <label htmlFor={value}>{value}</label>
+                <input type="checkbox" name="status" id={value} value={value} onChange={() => handleChange(idx)} checked={activeCheckboxes[idx]} />
+            </div>
+        )
+    }
+
     return (
         <div className="filter-container">
             <div className="filter-header">
                 <div className="clear-filter-container">
-                    <button className={`clear-filters-button${activeCheckboxes.filter((elem) => elem !== false).length > 0 ? ' active' : ''}`} onClick={() => setActiveCheckboxes(new Array(2).fill(false))}>Clear all</button>
+                    <button 
+                        className={`clear-filters-button${activeCheckboxes.filter((elem) => elem !== false).length > 0 ? ' active' : ''}`} 
+                        onClick={() => setActiveCheckboxes(new Array(2).fill(false))}>
+                            Clear all
+                    </button>
                 </div>
                 <div className="filter-title">
                     <p>Filter</p>
@@ -53,14 +66,8 @@ function Filter(props) {
             <form onSubmit={onSubmitHandler}>
                 <div className="filter-options">
                     <p>Friend Status</p>
-                    <div className="checkbox-container">
-                        <label htmlFor="Close Friends">Close Friends</label>
-                        <input type="checkbox" name="status" id="Close Friends" value="Close Friends" onChange={() => handleChange(0)} checked={activeCheckboxes[0]}/>
-                    </div>
-                    <div className="checkbox-container">
-                        <label htmlFor="Super Close Friends">Super Close Friends</label>
-                        <input type="checkbox" name="status" id="Super Close Friends" value="Super Close Friends" onChange={() => handleChange(1)} checked={activeCheckboxes[1]}/>
-                    </div>
+                   {renderCheckboxInput("Close Friends", 0)}
+                   {renderCheckboxInput("Super Close Friends", 1)}
                 </div>
                 <div className="filter-footer">
                     <button type="submit" className="apply-filters-button">Apply</button>

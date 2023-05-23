@@ -1,0 +1,62 @@
+.filter-content {
+    display: inline-flex;
+    align-items: center;
+}
+
+.filter-button {
+    background: #FFFFFF;
+    border: 1px solid #ABABAB;
+    border-radius: 30px;
+    box-sizing: border-box;
+    width: 59px;
+    height: 37px;
+    cursor: pointer;
+}
+
+.filter-button.active {
+    background-color: #424242;
+    width: 80px;
+}
+
+.filter-button.active > svg {
+    fill: #fff;
+}
+
+.filter-button.active > svg > path {
+    stroke: #fff;
+}
+
+.filter-button.active > svg > circle {
+    stroke: #fff;
+    fill: #424242;
+}
+
+.svg-divider {
+    height: 28px;
+    padding: 0px 10px 0px 12px;
+    height: 35px;
+}
+
+.clear-filters-button {
+    background-color: transparent;
+    border: none;
+    font-weight: 600;
+    font-size: 14px;
+    line-height: 17px;
+    color: #D7D7D7;
+}
+
+.clear-filters-button.active {
+    color: #3399FF;
+    cursor: pointer;
+}
+
+.active-filter-count {
+    position: relative;
+    left: 6px;
+    bottom: 3px;
+    font-weight: 600;
+    font-size: 16px;
+    line-height: 19px;
+    color: #fff;
+}
