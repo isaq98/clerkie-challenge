@@ -7,12 +7,13 @@
   min-height: 100vh;
 }
 
+/* TODO: clean stuff up in here*/
+
 .welcomeMessage {
   position: absolute;
   width: 433px;
   height: 31px;
-  /* left: 869px; */
-  left: 725px;
+  left: 675px;
   top: 525px;
   font-style: normal;
   font-weight: 600;

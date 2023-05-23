@@ -1,13 +1,18 @@
 'use client';
 import "./_Navigation.css";
 import TopMenu from "../TopMenu";
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { mockNavigationObject } from "@/constants/enums";
 
 /* TODO: call topmenu in here so that way we can pass it a prop onClick to display the correct component depending on what sidebar button has been selected */
 
-function Navigation() {
+function Navigation(props) {
+    const { setRouteCallback } = props;
     const [pageName, setPageName] = useState("Home");
+
+    useEffect(() => {
+        setRouteCallback(pageName);
+    }, [pageName])
 
     const renderSidebarButtons = () => {
         return (

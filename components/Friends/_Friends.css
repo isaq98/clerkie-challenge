@@ -68,6 +68,7 @@
 
 .filter-button.active {
     background-color: #424242;
+    width: 80px;
 }
 
 .filter-button.active > svg {
@@ -98,10 +99,24 @@
     color: #D7D7D7;
 }
 
+.clear-filters-button.active {
+    color: #3399FF;
+    cursor: pointer;
+}
+
 .friends-list-container {
     position: absolute;
     top: 150px;
     right: 300px;
 }
 
+.active-filter-count {
+    position: relative;
+    left: 6px;
+    bottom: 3px;
+    font-weight: 600;
+    font-size: 16px;
+    line-height: 19px;
+    color: #fff;
+}
 /* TODO: Figure out how to clean things up */
