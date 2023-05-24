@@ -11,7 +11,7 @@ import "./_Friends.css";
 function Friends() {
     const [ friends, setFriends ]= useState([]);
     const [ activeFilters, setActiveFilters ] = useState([]);
-    const [ showLoading, setShowLoading ] = useState(false);
+    const [ isLoading, setIsLoading ] = useState(false);
     const [ applyFilters, setApplyFilters ] = useState(false);
     const [ initialLoad, setInitialLoad ] = useState(false);
     const [ filterVisibility, setFilterVisibility ] = useState(false);
@@ -40,7 +40,7 @@ function Friends() {
             return res;
         }
         return friends.map((friendElem, idx) => {
-            return ( 
+            return (
                 <div className="friend-card" key={`${friendElem}-${idx}`}>
                     <h4>{friendElem.name} {friendElem?.friend_state ? <span className={`friend-status ${determineFriendStatus(friendElem?.friend_state)}`}>{friendElem?.friend_state}</span> : null}</h4>
                     <p className="contact-info">
@@ -54,7 +54,6 @@ function Friends() {
     }
 
       const paginateFriends = () => {
-        setShowLoading(true);
         if(!endReached) {
             const nextChunk = friends.slice(page * friendsPerScroll, (page + 1) * friendsPerScroll);
             loadFriendCards(nextChunk);
@@ -64,7 +63,7 @@ function Friends() {
     useEffect(() => {
         if(page * friendsPerScroll > friends.length) {
             setEndReached(true);
-            setShowLoading(false);
+            setIsLoading(false);
         }
         else {
             if(page === 0) {
@@ -82,12 +81,15 @@ function Friends() {
             setFriends(data.friends); 
             setInitialLoad(false); 
         });
+        setIsLoading(true)
       }, [])
 
 
     const loadFriendCards = (newData) => {
-        setFriends((currFriends) => [...currFriends, ...newData]);
-        setShowLoading(false);
+        setFriends((currFriends) => {
+            setIsLoading(false);
+            return [...currFriends, ...newData]
+        });
     }
 
     const handleScroll = () => {
@@ -96,7 +98,11 @@ function Friends() {
             const clientHeight = document.documentElement.clientHeight
 
             if (scrollTop + clientHeight >= scrollHeight) {
-                //setShowLoading(true);
+                if(!endReached) {
+                    setIsLoading(true)
+                } else {
+                    setIsLoading(false)
+                }
                 setPage((currValue) => {
                     return currValue += 1;
                 })
@@ -107,7 +113,7 @@ function Friends() {
       useEffect(() => {
         window.addEventListener('scroll', handleScroll);
         return () => window.removeEventListener('scroll', handleScroll);
-      }, [showLoading]);
+      }, []);
 
     const filterFriends = () => {
         getFriends(activeFilters.length > 0 ? activeFilters : [], 0, 7)
@@ -131,8 +137,9 @@ function Friends() {
         <div className="friends-list-container">
             <FilterButton 
                 setActiveFilters={setActiveFilters} 
-                setApplyFilters={setApplyFilters} 
-                activeFiltersLength={activeFilters.length} 
+                setApplyFilters={setApplyFilters}
+                activeFiltersLength={activeFilters.length}
+                filterVisibility={filterVisibility}
                 setFilterVisibility={setFilterVisibility}
                 setLoadingCallback={setInitialLoad}
             />
@@ -148,8 +155,8 @@ function Friends() {
             }
             <div className="friends-list">
                 {renderContent()}
-                {showLoading && !endReached && <FriendLoader />}
             </div>
+            {!endReached && <FriendLoader />}
         </div>
     )
 }
