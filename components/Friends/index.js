@@ -1,6 +1,7 @@
 'use client';
 import { useState, useEffect } from 'react';
 import { mockFriendsObject } from "@/constants/enums";
+import { getFriends } from '@/services/FriendServices';
 import FriendLoader from '../FriendLoader';
 import FilterButton from '../FilterButton';
 import Filter from '../Filter';
@@ -9,17 +10,17 @@ import "./_Friends.css";
 /* TODO: Feel like this component can be cleaned up too */
 
 function Friends() {
+    const [ friends, setFriends ]= useState([]);
     const [ activeFilters, setActiveFilters ] = useState([]);
-    const [ filteredFriends, setFilteredFriends ] = useState(mockFriendsObject);
+    const [ yScroll, setYScroll ] = useState(window.scrollY);
+    const [ isLoading, setIsLoading ] = useState(false);
     const [ applyFilters, setApplyFilters ] = useState(false);
     const [ filterVisibility, setFilterVisibility ] = useState(false);
+    const [ endReached, setEndReached ] = useState(false);
+    const [ page, setPage ] = useState(0);
 
-    const [items, setItems] = useState([]);
-    const [isLoading, setIsLoading] = useState(false);
-    const [perPage, setPerPage] = useState(7);
-    const [error, setError] = useState(null);
-    const [page, setPage] = useState(0);
-    const [endReached, setEndReached] = useState(false);
+    const friendsObjLength = mockFriendsObject.length; //We wouldn't know the size of the payload ahead of time
+    const friendsPerScroll = 7;
     
     const determineFriendStatus = (status) => {
         switch(status) {
@@ -32,54 +33,8 @@ function Friends() {
         }
     }
 
-    // const loadFriendCards = (newData) => {
-    //     setItems((currItems) => [...currItems, ...newData]);
-    //     setIsLoading(false);
-    // }
-
-    // const fetchFriends = () => {
-    //     setIsLoading(true);
-    //     if(!endReached) {
-    //         const nextChunk = mockFriendsObject.splice(page * perPage, perPage);
-    //         if(items.length >= filteredFriends.length) {
-    //             setEndReached(true);
-    //         }
-    //         loadFriendCards(nextChunk);
-    //     }
-    // }
-
-    // const handleScroll = () => {
-    //     const scrollTop = document.documentElement.scrollTop
-    //     const scrollHeight = document.documentElement.scrollHeight
-    //     const clientHeight = document.documentElement.clientHeight
-        
-    //     if (scrollTop + clientHeight >= scrollHeight) {
-    //         setPage(page + 1)
-    //     }
-    //     fetchFriends();
-    //   };
-
-    //   useEffect(() => {
-    //     window.addEventListener('scroll', handleScroll);
-    //     return () => window.removeEventListener('scroll', handleScroll);
-    //   }, [isLoading]);
-
-    //   useEffect(() => {
-    //     fetchFriends();
-    //   }, [])
-
-    const filterFriends = () => {
-        if(activeFilters.length === 0) {
-            setFilteredFriends(mockFriendsObject);
-        }
-        else {
-            let filteredItems = mockFriendsObject.filter((element) => activeFilters.includes(element?.friend_state));
-            setFilteredFriends(filteredItems);
-        }
-    }
-
     const renderFriends = () => {
-        return filteredFriends.map((friendElem, idx) => {
+        return friends.map((friendElem, idx) => {
             return ( 
                 <div className="friend-card" key={`${friendElem}-${idx}`}>
                     <h4>{friendElem.name} {friendElem?.friend_state ? <span className={`friend-status ${determineFriendStatus(friendElem?.friend_state)}`}>{friendElem?.friend_state}</span> : null}</h4>
@@ -89,11 +44,72 @@ function Friends() {
                         {friendElem.phone}
                     </p>
                 </div>
-            )})
+            )
+        })
     }
-    
+
+      const paginateFriends = () => {
+        setIsLoading(true);
+        if(!endReached) {
+            const nextChunk = friends.slice(page * friendsPerScroll, (page + 1) * friendsPerScroll);
+            if(friends.length >= friendsObjLength) {
+                setEndReached(true);
+            }
+            loadFriendCards(nextChunk);
+        }
+    }
+
     useEffect(() => {
-        filterFriends();
+        getFriends([], 0, 7).then((data) => setFriends(data.friends));
+      }, [])
+
+
+    const loadFriendCards = (newData) => {
+        setFriends((currFriends) => [...currFriends, ...newData]);
+        setIsLoading(false);
+    }
+
+    const handleScroll = () => {
+        if(yScroll < window.scrollY) {
+            const scrollTop = document.documentElement.scrollTop
+            const scrollHeight = document.documentElement.scrollHeight
+            const clientHeight = document.documentElement.clientHeight
+
+            if (scrollTop + clientHeight >= scrollHeight) {
+                setPage((currValue) => {
+                    currValue += 1;
+                    getFriends([], currValue, 7).then((data) => setFriends((currFriends) => [...currFriends, ...data.friends]));
+                    return currValue;
+                })
+            }
+            setYScroll(window.scrollY);
+            paginateFriends();
+        }
+      };
+
+      useEffect(() => {
+        window.addEventListener('scroll', handleScroll);
+        return () => window.removeEventListener('scroll', handleScroll);
+      }, [isLoading]);
+
+    const filterFriends = () => {
+        if(activeFilters.length === 0) {
+           getFriends([], 0, 7)
+           .then((data) => 
+           setFriends(() => {
+            setPage(0);
+            return data.friends;
+           }));
+        }
+        else {
+            getFriends(activeFilters, page, 7).then((data) => setFriends(data.friends));
+        }
+    }
+
+    useEffect(() => {
+        if(applyFilters) {
+            filterFriends();
+        }
         setApplyFilters(false);
     }, [applyFilters])
 
@@ -105,10 +121,10 @@ function Friends() {
                 activeFiltersLength={activeFilters.length} 
                 setFilterVisibility={setFilterVisibility}
             />
-            {filterVisibility && <Filter setFiltersCallback={setActiveFilters} setApplyCallback={setApplyFilters} setVisibilityCallback={setFilterVisibility}/>}
+            {filterVisibility && <Filter setFiltersCallback={setActiveFilters} setApplyCallback={setApplyFilters} setVisibilityCallback={setFilterVisibility} activeFilters={activeFilters}/>}
             <div className="friends-list">
                 {renderFriends()}
-                {isLoading && <FriendLoader />}
+                {isLoading && !endReached && <FriendLoader />}
             </div>
         </div>
     )

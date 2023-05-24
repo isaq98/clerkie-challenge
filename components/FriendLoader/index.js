@@ -1,7 +1,6 @@
 import './_FriendLoader.css';
 
 function FriendLoader() {
-    console.log('I was rendered');
     return(
         <div className="friend-card-loader">
             <div className="loading-row">
