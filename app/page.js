@@ -10,9 +10,9 @@ export default function Home() {
   const [route, setRoute] = useState('Home');
   return (
     <main>
-      <div className="app-container">
+      <div className={styles.appContainer}>
         <Navigation setRouteCallback={setRoute}/>
-        { route === "Home" ? <h4 className={styles.welcomeMessage}>Welcome to the Clerkie Challenge!</h4> : <Friends />}
+        { route === "Home" ? <div className={styles.welcomeContainer}><h4 className={styles.welcomeMessage}>Welcome to the Clerkie Challenge!</h4></div> : <Friends />}
       </div>
     </main>
   )

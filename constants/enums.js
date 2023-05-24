@@ -45,9 +45,34 @@ export const mockFriendsObject = [
         phone: '(574) 243-2574'
     },
     {
-        name: "Kim Holland",
-        email: 'kimholland@gmail.com',
-        phone: '(357) 345-6324'
+        name: "John Smith",
+        friend_state: "Close Friends",
+        email: 'johnsmith@gmail.com',
+        phone: '(542) 011-6324'
+    },
+    {
+        name: "Jackson Ruben",
+        friend_state: "Close Friends",
+        email: 'jackruben@gmail.com',
+        phone: '(140) 022-1924'
+    },
+    {
+        name: "Chris Samson",
+        friend_state: "Close Friends",
+        email: 'chrissamsonn@gmail.com',
+        phone: '(619) 444-9247'
+    },
+    {
+        name: "Cliff Bradberry",
+        friend_state: "Super Close Friends",
+        email: 'cb@gmail.com',
+        phone: '(111) 491-6114'
+    },
+    {
+        name: "Jeffrey Rhodes",
+        friend_state: "Super Close Friends",
+        email: 'jeffrhodes@gmail.com',
+        phone: '(909) 555-1921'
     },
     {
         name: "Kim Holland",
@@ -55,49 +80,41 @@ export const mockFriendsObject = [
         phone: '(357) 345-6324'
     },
     {
-        name: "Kim Holland",
-        email: 'kimholland@gmail.com',
-        phone: '(357) 345-6324'
+        name: "Matthew Schafer",
+        friend_state: "Super Close Friends",
+        email: 'mattschafer@gmail.com',
+        phone: '(640) 111-0000'
     },
     {
-        name: "Kim Holland",
-        email: 'kimholland@gmail.com',
-        phone: '(357) 345-6324'
+        name: "Maya Fernandez",
+        friend_state: "Super Close Friends",
+        email: 'mayafern@gmail.com',
+        phone: '(788) 900-2265'
     },
     {
-        name: "Kim Holland",
-        email: 'kimholland@gmail.com',
-        phone: '(357) 345-6324'
+        name: "Sameer Isaq",
+        email: 'sameerisaq@gmail.com',
+        phone: '(415) 922-1147'
     },
     {
-        name: "Kim Holland",
-        email: 'kimholland@gmail.com',
-        phone: '(357) 345-6324'
+        name: "Alex Rodgers",
+        friend_state: "Close Friends",
+        email: 'alexrodgers@gmail.com',
+        phone: '(422) 819-8823'
     },
     {
-        name: "Kim Holland",
-        email: 'kimholland@gmail.com',
-        phone: '(357) 345-6324'
+        name: "Mary Brown",
+        friend_state: "Close Friends",
+        email: 'mbrown@gmail.com',
+        phone: '(523) 804-1233'
     },
     {
-        name: "Kim Holland",
-        email: 'kimholland@gmail.com',
-        phone: '(357) 345-6324'
-    },
-    {
-        name: "Kim Holland",
-        email: 'kimholland@gmail.com',
-        phone: '(357) 345-6324'
-    },
-    {
-        name: "Kim Holland",
-        email: 'kimholland@gmail.com',
-        phone: '(357) 345-6324'
-    },
-    {
-        name: "Kim Holland",
-        email: 'kimholland@gmail.com',
-        phone: '(357) 345-6324'
+        name: "Ryan Brown",
+        email: 'ryanbrown@gmail.com',
+        phone: '(606) 917-4422'
     },
 ]
 //17 total
+//7 close friends
+//6 super close friends
+//4 normal friends

@@ -54,8 +54,7 @@ function Friends() {
     }
 
       const paginateFriends = () => {
-        //setIsLoading(true);
-        //setShowLoading(true);
+        setShowLoading(true);
         if(!endReached) {
             const nextChunk = friends.slice(page * friendsPerScroll, (page + 1) * friendsPerScroll);
             loadFriendCards(nextChunk);
@@ -67,11 +66,22 @@ function Friends() {
             setEndReached(true);
             setShowLoading(false);
         }
+        else {
+            if(page === 0) {
+                getFriends(activeFilters, 0, 7).then((data) => setFriends(data.friends));
+            }
+            else {
+                getFriends(activeFilters, page, 7).then((data) => setFriends((currFriends) => [...currFriends, ...data.friends]));
+            }
+        }
     }, [page])
 
     useEffect(() => {
         setInitialLoad(true)
-        getFriends([], 0, 7).then((data) => {setFriends(data.friends); setInitialLoad(false); });
+        getFriends([], 0, 7).then((data) => { 
+            setFriends(data.friends); 
+            setInitialLoad(false); 
+        });
       }, [])
 
 
@@ -88,9 +98,7 @@ function Friends() {
             if (scrollTop + clientHeight >= scrollHeight) {
                 //setShowLoading(true);
                 setPage((currValue) => {
-                    currValue += 1;
-                    getFriends(activeFilters, currValue, 7).then((data) => setFriends((currFriends) => [...currFriends, ...data.friends]));
-                    return currValue;
+                    return currValue += 1;
                 })
             }
             paginateFriends();
@@ -102,22 +110,14 @@ function Friends() {
       }, [showLoading]);
 
     const filterFriends = () => {
-        if(activeFilters.length === 0) {
-           getFriends([], 0, 7)
+        getFriends(activeFilters.length > 0 ? activeFilters : [], 0, 7)
            .then((data) => 
-           setFriends(() => {
+            setFriends(() => {
             setInitialLoad(false);
             setPage(0);
             setEndReached(false);
             return data.friends;
-           }));
-        }
-        else {
-            getFriends(activeFilters, page, 7).then((data) => setFriends(() => {
-                setInitialLoad(false);
-                return data.friends;
-            }));
-        }
+        }));
     }
 
     useEffect(() => {

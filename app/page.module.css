@@ -9,8 +9,21 @@
 
 /* TODO: clean stuff up in here*/
 
+.appContainer {
+  height: 100vh;
+}
+
+.welcomeContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+}
 .welcomeMessage {
-  position: absolute;
+  font-weight: 600;
+  font-size: 26px;
+  line-height: 31px;
+  /* position: absolute;
   width: 433px;
   height: 31px;
   left: 675px;
@@ -20,7 +33,7 @@
   font-size: 26px;
   line-height: 31px;
   display: flex;
-  align-items: center;
+  align-items: center; */
 }
 
 .description {
