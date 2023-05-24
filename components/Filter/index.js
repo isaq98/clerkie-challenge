@@ -4,7 +4,7 @@ import { useState } from 'react';
 
 function Filter(props) {
     const [ activeCheckboxes, setActiveCheckboxes ] = useState(new Array(2).fill(false));
-    const { setFiltersCallback, setApplyCallback, setVisibilityCallback } = props;
+    const { setFiltersCallback, setApplyCallback, setVisibilityCallback, activeFilters } = props;
 
     /* TODO: clean this up too */
 
@@ -33,15 +33,25 @@ function Filter(props) {
         setApplyCallback(true);
     }
 
-    const handleChange = (i) => {
+    const handleChange = (value, i) => {
+        if(activeFilters.includes(value)) {
+            activeCheckboxes[i] = true;
+            setActiveCheckboxes(activeCheckboxes);
+        }
         setActiveCheckboxes((currValues) => currValues.map((element, idx) => idx === i ? !element : element));
+        setFiltersCallback((currFilters) => currFilters.filter((element) => element !== value))
     }
 
-    const renderCheckboxInput = (value, idx) => {
+    const handleClear = () => {
+        setActiveCheckboxes(new Array(2).fill(false));
+        setFiltersCallback([]);
+    }
+
+    const renderCheckboxInput = (value, index) => {
         return (
             <div className="checkbox-container">
                 <label htmlFor={value}>{value}</label>
-                <input type="checkbox" name="status" id={value} value={value} onChange={() => handleChange(idx)} checked={activeCheckboxes[idx]} />
+                <input type="checkbox" name="status" id={value} value={value} onChange={() => handleChange(value, index)} checked={activeCheckboxes[index] || activeFilters.includes(value)} />
             </div>
         )
     }
@@ -51,8 +61,8 @@ function Filter(props) {
             <div className="filter-header">
                 <div className="clear-filter-container">
                     <button 
-                        className={`clear-filters-button${activeCheckboxes.filter((elem) => elem !== false).length > 0 ? ' active' : ''}`} 
-                        onClick={() => setActiveCheckboxes(new Array(2).fill(false))}>
+                        className={`clear-filters-button${activeCheckboxes.filter((elem) => elem !== false).length > 0 || activeFilters.length > 0 ? ' active' : ''}`} 
+                        onClick={handleClear}>
                             Clear all
                     </button>
                 </div>

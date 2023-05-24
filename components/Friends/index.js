@@ -12,8 +12,10 @@ import "./_Friends.css";
 function Friends() {
     const [ friends, setFriends ]= useState([]);
     const [ activeFilters, setActiveFilters ] = useState([]);
-    const [ yScroll, setYScroll ] = useState(window.scrollY);
+    //const [ yScroll, setYScroll ] = useState(window.scrollY);
+    //const [ currScrollHeight, setCurrScrollHeight ] = useState(document.documentElement.scrollHeight);
     const [ isLoading, setIsLoading ] = useState(false);
+    const [ showLoading, setShowLoading ] = useState(false);
     const [ applyFilters, setApplyFilters ] = useState(false);
     const [ filterVisibility, setFilterVisibility ] = useState(false);
     const [ endReached, setEndReached ] = useState(false);
@@ -60,7 +62,12 @@ function Friends() {
     }
 
     useEffect(() => {
-        getFriends([], 0, 7).then((data) => setFriends(data.friends));
+        console.log(page);
+    }, [page])
+
+    useEffect(() => {
+        setShowLoading(true)
+        getFriends([], 0, 7).then((data) => {setFriends(data.friends); setShowLoading(false); });
       }, [])
 
 
@@ -70,7 +77,7 @@ function Friends() {
     }
 
     const handleScroll = () => {
-        if(yScroll < window.scrollY) {
+        //if(yScroll < window.scrollY) {
             const scrollTop = document.documentElement.scrollTop
             const scrollHeight = document.documentElement.scrollHeight
             const clientHeight = document.documentElement.clientHeight
@@ -78,13 +85,14 @@ function Friends() {
             if (scrollTop + clientHeight >= scrollHeight) {
                 setPage((currValue) => {
                     currValue += 1;
+                    //setShowLoading(true);
                     getFriends([], currValue, 7).then((data) => setFriends((currFriends) => [...currFriends, ...data.friends]));
                     return currValue;
                 })
             }
-            setYScroll(window.scrollY);
+            //setYScroll(window.scrollY);
             paginateFriends();
-        }
+       // }
       };
 
       useEffect(() => {
@@ -124,7 +132,7 @@ function Friends() {
             {filterVisibility && <Filter setFiltersCallback={setActiveFilters} setApplyCallback={setApplyFilters} setVisibilityCallback={setFilterVisibility} activeFilters={activeFilters}/>}
             <div className="friends-list">
                 {renderFriends()}
-                {isLoading && !endReached && <FriendLoader />}
+                {showLoading && !endReached && <FriendLoader />}
             </div>
         </div>
     )
