@@ -1,6 +1,5 @@
 'use client';
 import { useState, useEffect } from 'react';
-import { mockFriendsObject } from "@/constants/enums";
 import { getFriends } from '@/services/FriendServices';
 import FriendLoader from '../FriendLoader';
 import FilterButton from '../FilterButton';
@@ -12,16 +11,13 @@ import "./_Friends.css";
 function Friends() {
     const [ friends, setFriends ]= useState([]);
     const [ activeFilters, setActiveFilters ] = useState([]);
-    //const [ yScroll, setYScroll ] = useState(window.scrollY);
-    //const [ currScrollHeight, setCurrScrollHeight ] = useState(document.documentElement.scrollHeight);
-    const [ isLoading, setIsLoading ] = useState(false);
     const [ showLoading, setShowLoading ] = useState(false);
     const [ applyFilters, setApplyFilters ] = useState(false);
+    const [ initialLoad, setInitialLoad ] = useState(false);
     const [ filterVisibility, setFilterVisibility ] = useState(false);
     const [ endReached, setEndReached ] = useState(false);
     const [ page, setPage ] = useState(0);
 
-    const friendsObjLength = mockFriendsObject.length; //We wouldn't know the size of the payload ahead of time
     const friendsPerScroll = 7;
     
     const determineFriendStatus = (status) => {
@@ -35,7 +31,14 @@ function Friends() {
         }
     }
 
-    const renderFriends = () => {
+    const renderContent = () => {
+        if(initialLoad) {
+            const res = [];
+            for(let i = 0; i < friendsPerScroll; i++) {
+                res.push(<FriendLoader key={`loader-${i}`} />)
+            }
+            return res;
+        }
         return friends.map((friendElem, idx) => {
             return ( 
                 <div className="friend-card" key={`${friendElem}-${idx}`}>
@@ -51,66 +54,69 @@ function Friends() {
     }
 
       const paginateFriends = () => {
-        setIsLoading(true);
+        //setIsLoading(true);
+        //setShowLoading(true);
         if(!endReached) {
             const nextChunk = friends.slice(page * friendsPerScroll, (page + 1) * friendsPerScroll);
-            if(friends.length >= friendsObjLength) {
-                setEndReached(true);
-            }
             loadFriendCards(nextChunk);
         }
     }
 
     useEffect(() => {
-        console.log(page);
+        if(page * friendsPerScroll > friends.length) {
+            setEndReached(true);
+            setShowLoading(false);
+        }
     }, [page])
 
     useEffect(() => {
-        setShowLoading(true)
-        getFriends([], 0, 7).then((data) => {setFriends(data.friends); setShowLoading(false); });
+        setInitialLoad(true)
+        getFriends([], 0, 7).then((data) => {setFriends(data.friends); setInitialLoad(false); });
       }, [])
 
 
     const loadFriendCards = (newData) => {
         setFriends((currFriends) => [...currFriends, ...newData]);
-        setIsLoading(false);
+        setShowLoading(false);
     }
 
     const handleScroll = () => {
-        //if(yScroll < window.scrollY) {
             const scrollTop = document.documentElement.scrollTop
             const scrollHeight = document.documentElement.scrollHeight
             const clientHeight = document.documentElement.clientHeight
 
             if (scrollTop + clientHeight >= scrollHeight) {
+                //setShowLoading(true);
                 setPage((currValue) => {
                     currValue += 1;
-                    //setShowLoading(true);
-                    getFriends([], currValue, 7).then((data) => setFriends((currFriends) => [...currFriends, ...data.friends]));
+                    getFriends(activeFilters, currValue, 7).then((data) => setFriends((currFriends) => [...currFriends, ...data.friends]));
                     return currValue;
                 })
             }
-            //setYScroll(window.scrollY);
             paginateFriends();
-       // }
       };
 
       useEffect(() => {
         window.addEventListener('scroll', handleScroll);
         return () => window.removeEventListener('scroll', handleScroll);
-      }, [isLoading]);
+      }, [showLoading]);
 
     const filterFriends = () => {
         if(activeFilters.length === 0) {
            getFriends([], 0, 7)
            .then((data) => 
            setFriends(() => {
+            setInitialLoad(false);
             setPage(0);
+            setEndReached(false);
             return data.friends;
            }));
         }
         else {
-            getFriends(activeFilters, page, 7).then((data) => setFriends(data.friends));
+            getFriends(activeFilters, page, 7).then((data) => setFriends(() => {
+                setInitialLoad(false);
+                return data.friends;
+            }));
         }
     }
 
@@ -128,10 +134,20 @@ function Friends() {
                 setApplyFilters={setApplyFilters} 
                 activeFiltersLength={activeFilters.length} 
                 setFilterVisibility={setFilterVisibility}
+                setLoadingCallback={setInitialLoad}
             />
-            {filterVisibility && <Filter setFiltersCallback={setActiveFilters} setApplyCallback={setApplyFilters} setVisibilityCallback={setFilterVisibility} activeFilters={activeFilters}/>}
+            {
+                filterVisibility && 
+                <Filter 
+                    setFiltersCallback={setActiveFilters} 
+                    setApplyCallback={setApplyFilters} 
+                    setVisibilityCallback={setFilterVisibility} 
+                    activeFilters={activeFilters} 
+                    setLoadingCallback={setInitialLoad}
+                />
+            }
             <div className="friends-list">
-                {renderFriends()}
+                {renderContent()}
                 {showLoading && !endReached && <FriendLoader />}
             </div>
         </div>

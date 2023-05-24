@@ -79,5 +79,25 @@ export const mockFriendsObject = [
         email: 'kimholland@gmail.com',
         phone: '(357) 345-6324'
     },
+    {
+        name: "Kim Holland",
+        email: 'kimholland@gmail.com',
+        phone: '(357) 345-6324'
+    },
+    {
+        name: "Kim Holland",
+        email: 'kimholland@gmail.com',
+        phone: '(357) 345-6324'
+    },
+    {
+        name: "Kim Holland",
+        email: 'kimholland@gmail.com',
+        phone: '(357) 345-6324'
+    },
+    {
+        name: "Kim Holland",
+        email: 'kimholland@gmail.com',
+        phone: '(357) 345-6324'
+    },
 ]
-//13 total
+//17 total

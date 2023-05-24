@@ -4,7 +4,7 @@ import { useState } from 'react';
 
 function Filter(props) {
     const [ activeCheckboxes, setActiveCheckboxes ] = useState(new Array(2).fill(false));
-    const { setFiltersCallback, setApplyCallback, setVisibilityCallback, activeFilters } = props;
+    const { setFiltersCallback, setApplyCallback, setVisibilityCallback, activeFilters, setLoadingCallback } = props;
 
     /* TODO: clean this up too */
 
@@ -31,6 +31,7 @@ function Filter(props) {
             setFiltersCallback([]);
         }
         setApplyCallback(true);
+        setLoadingCallback(true);
     }
 
     const handleChange = (value, i) => {
