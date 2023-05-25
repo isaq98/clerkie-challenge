@@ -52,7 +52,8 @@
 }
 
 .friends-list-container {
-     display: flex;
+    display: flex;
+    position: relative;
     flex-direction: column;
     margin-top: 150px;
 }
