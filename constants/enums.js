@@ -114,7 +114,3 @@ export const mockFriendsObject = [
         phone: '(606) 917-4422'
     },
 ]
-//17 total
-//7 close friends
-//6 super close friends
-//4 normal friends

@@ -18,7 +18,7 @@ function Friends() {
     const [ endReached, setEndReached ] = useState(false);
     const [ page, setPage ] = useState(0);
 
-    const friendsPerScroll = 7;
+    const friendsPerScroll = 8;
     
     const determineFriendStatus = (status) => {
         switch(status) {
@@ -33,7 +33,7 @@ function Friends() {
 
     useEffect(() => {
         setInitialLoad(true)
-        getFriends([], 0, 7).then((data) => { 
+        getFriends([], 0, 8).then((data) => { 
             setFriends(data.friends); 
             setInitialLoad(false); 
         });
@@ -68,10 +68,10 @@ function Friends() {
         }
         else {
             if(page === 0) {
-                getFriends(activeFilters, 0, 7).then((data) => setFriends(data.friends));
+                getFriends(activeFilters, 0, 8).then((data) => setFriends(data.friends));
             }
             else {
-                getFriends(activeFilters, page, 7).then((data) => setFriends((currFriends) => [...currFriends, ...data.friends]));
+                getFriends(activeFilters, page, 8).then((data) => setFriends((currFriends) => [...currFriends, ...data.friends]));
             }
         }
     }, [page])
@@ -101,7 +101,7 @@ function Friends() {
     }, [isLoading]);
 
     const filterFriends = () => {
-        getFriends(activeFilters.length > 0 ? activeFilters : [], 0, 7)
+        getFriends(activeFilters.length > 0 ? activeFilters : [], 0, 8)
            .then((data) => 
             setFriends(() => {
                 setInitialLoad(false);

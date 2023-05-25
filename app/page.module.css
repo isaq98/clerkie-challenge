@@ -7,34 +7,19 @@
   min-height: 100vh;
 }
 
-/* TODO: clean stuff up in here*/
-
-.appContainer {
-  height: 100vh;
-  width: 100vw;
+.appContainer, .welcomeContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .welcomeContainer {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100%;
+    height: 100vh;
 }
 .welcomeMessage {
   font-weight: 600;
   font-size: 26px;
   line-height: 31px;
-  /* position: absolute;
-  width: 433px;
-  height: 31px;
-  left: 675px;
-  top: 525px;
-  font-style: normal;
-  font-weight: 600;
-  font-size: 26px;
-  line-height: 31px;
-  display: flex;
-  align-items: center; */
 }
 
 .description {

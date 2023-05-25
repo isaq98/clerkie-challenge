@@ -52,8 +52,8 @@
 }
 
 .friends-list-container {
-    position: absolute;
-    top: 150px;
-    left: 500px;
+     display: flex;
+    flex-direction: column;
+    margin-top: 150px;
 }
 /* TODO: Figure out how to clean things up */
