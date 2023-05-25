@@ -6,8 +6,6 @@ function Filter(props) {
     const [ activeCheckboxes, setActiveCheckboxes ] = useState(new Array(2).fill(false));
     const { setFiltersCallback, setApplyCallback, setVisibilityCallback, activeFilters, setLoadingCallback } = props;
 
-    /* TODO: clean this up too */
-
     const onSubmitHandler = (event) => {
         event.preventDefault();
         const activeNames = [];
@@ -16,20 +14,7 @@ function Filter(props) {
                 activeNames.push(event.target.elements[i].value);
             }
         }
-        if(activeNames.length > 0) {
-            activeNames.map((element) => setFiltersCallback((currValues) => { 
-                if(currValues.length > 0 && !currValues.includes(element)) {
-                    return [...currValues, element]
-                }
-                else {
-                    return [element];
-                }
-            }
-            ));
-        }
-        else {
-            setFiltersCallback([]);
-        }
+        setFiltersCallback(activeNames);
         setApplyCallback(true);
         setLoadingCallback(true);
     }
