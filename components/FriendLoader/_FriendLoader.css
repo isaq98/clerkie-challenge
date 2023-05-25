@@ -8,6 +8,7 @@
     border-radius: 6px;
     box-sizing: border-box;
     margin: 15px 0px;
+    overflow-y: hidden;
 }
 
 .loading-row {

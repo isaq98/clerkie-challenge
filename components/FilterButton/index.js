@@ -1,11 +1,12 @@
 import "./_FilterButton.css";
 
 function FilterButton(props) {
-    const { setActiveFilters, setApplyFilters, setFilterVisibility, filterVisibility, activeFiltersLength, setLoadingCallback} = props;
+    const { setActiveFilters, setApplyFilters, setFilterVisibility, filterVisibility, activeFiltersLength, setLoadingCallback, setOtherLoadingCallback, setEndReached} = props;
 
     const clearAllFilters = () => {
         setActiveFilters([]);
         setLoadingCallback(true);
+        setOtherLoadingCallback(true);
         setApplyFilters(true);
     }
 

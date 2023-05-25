@@ -31,6 +31,14 @@ function Friends() {
         }
     }
 
+    useEffect(() => {
+        setInitialLoad(true)
+        getFriends([], 0, 7).then((data) => { 
+            setFriends(data.friends); 
+            setInitialLoad(false); 
+        });
+      }, [])
+
     const renderContent = () => {
         if(initialLoad) {
             const res = [];
@@ -53,13 +61,6 @@ function Friends() {
         })
     }
 
-      const paginateFriends = () => {
-        if(!endReached) {
-            const nextChunk = friends.slice(page * friendsPerScroll, (page + 1) * friendsPerScroll);
-            loadFriendCards(nextChunk);
-        }
-    }
-
     useEffect(() => {
         if(page * friendsPerScroll > friends.length) {
             setEndReached(true);
@@ -76,54 +77,39 @@ function Friends() {
     }, [page])
 
     useEffect(() => {
-        setInitialLoad(true)
-        getFriends([], 0, 7).then((data) => { 
-            setFriends(data.friends); 
-            setInitialLoad(false); 
-        });
-        setIsLoading(true)
-      }, [])
-
-
-    const loadFriendCards = (newData) => {
-        setFriends((currFriends) => {
+        if(isLoading) {
             setIsLoading(false);
-            return [...currFriends, ...newData]
-        });
-    }
+        }
+    }, [friends])
 
     const handleScroll = () => {
-            const scrollTop = document.documentElement.scrollTop
-            const scrollHeight = document.documentElement.scrollHeight
-            const clientHeight = document.documentElement.clientHeight
-
-            if (scrollTop + clientHeight >= scrollHeight) {
-                if(!endReached) {
-                    setIsLoading(true)
-                } else {
-                    setIsLoading(false)
-                }
-                setPage((currValue) => {
-                    return currValue += 1;
-                })
+        if (window.innerHeight + document.documentElement.scrollTop === document.documentElement.offsetHeight || isLoading) {
+            return;
             }
-            paginateFriends();
-      };
+        else if(!endReached) {
+            setIsLoading(true);
+            setPage((currPage) => currPage + 1);
+        }
+        else {
+            setIsLoading(false);
+        }
+    };
 
-      useEffect(() => {
+    useEffect(() => {
         window.addEventListener('scroll', handleScroll);
         return () => window.removeEventListener('scroll', handleScroll);
-      }, []);
+    }, [isLoading]);
 
     const filterFriends = () => {
         getFriends(activeFilters.length > 0 ? activeFilters : [], 0, 7)
            .then((data) => 
             setFriends(() => {
-            setInitialLoad(false);
-            setPage(0);
-            setEndReached(false);
-            return data.friends;
-        }));
+                setInitialLoad(false);
+                setPage(0);
+                setEndReached(false);
+                setIsLoading(true);
+                return data.friends;
+            }));
     }
 
     useEffect(() => {
@@ -142,6 +128,7 @@ function Friends() {
                 filterVisibility={filterVisibility}
                 setFilterVisibility={setFilterVisibility}
                 setLoadingCallback={setInitialLoad}
+                setOtherLoadingCallback={setIsLoading}
             />
             {
                 filterVisibility && 
@@ -156,7 +143,7 @@ function Friends() {
             <div className="friends-list">
                 {renderContent()}
             </div>
-            {!endReached && <FriendLoader />}
+            {(!endReached && isLoading) && <FriendLoader /> }
         </div>
     )
 }
