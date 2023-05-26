@@ -2,7 +2,8 @@
     display: flex;
     flex-direction: column;
     justify-content: center;
-    width: 750px;
+    max-width: 1050px;
+    width: 850px;
     height: 115px;
     border: 1px solid #D7D7D7;
     border-radius: 6px;
@@ -57,4 +58,3 @@
     flex-direction: column;
     margin-top: 150px;
 }
-/* TODO: Figure out how to clean things up */

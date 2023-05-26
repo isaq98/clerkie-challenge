@@ -6,8 +6,6 @@ import FilterButton from '../FilterButton';
 import Filter from '../Filter';
 import "./_Friends.css";
 
-/* TODO: Feel like this component can be cleaned up too */
-
 function Friends() {
     const [ friends, setFriends ]= useState([]);
     const [ activeFilters, setActiveFilters ] = useState([]);
@@ -76,12 +74,6 @@ function Friends() {
         }
     }, [page])
 
-    useEffect(() => {
-        if(isLoading) {
-            setIsLoading(false);
-        }
-    }, [friends])
-
     const handleScroll = () => {
         if (window.innerHeight + document.documentElement.scrollTop === document.documentElement.offsetHeight || isLoading) {
             return;
@@ -115,9 +107,12 @@ function Friends() {
     useEffect(() => {
         if(applyFilters) {
             filterFriends();
+            setApplyFilters(false);
         }
-        setApplyFilters(false);
-    }, [applyFilters])
+        if(isLoading) {
+            setIsLoading(false);
+        }
+    }, [applyFilters, friends])
 
     return (
         <div className="friends-list-container">
